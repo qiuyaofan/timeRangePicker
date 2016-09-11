@@ -1,0 +1,218 @@
+
+
+// .timePickerRange-wrap,
+// .timePickerRange-time-wrap {
+//     padding-bottom: 5px;
+//     box-sizing: border-box;
+//     background: #fff;
+//     border: 1px solid #dbdbdb;
+//     box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+//     border-radius: 4px;
+//     box-sizing: content-box;
+//     font-family: Tahoma, sans-serif;
+//     font-size: 14px;
+//     color: #4a4a4a;
+//     width: auto;
+//     position: absolute;
+//     z-index: 100;
+// }
+
+.timePickerRange-wrap {
+    -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+    padding-bottom: 5px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    box-sizing: content-box;
+    font-family: Tahoma, sans-serif;
+    font-size: 14px;
+    color: #4a4a4a;
+    width: auto;
+    position: absolute;
+    z-index: 100;
+    .hide {
+        display: none;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        content: " ";
+        display: table;
+    }
+
+    .clearfix:after {
+        clear: both;
+    }
+    a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+    a:focus,
+    button:focus,
+    div,
+    input:focus {
+        outline: none;
+    }
+    .timePicker-btn {
+        border: 1px solid #dcdcdc;
+        padding: 4px 12px;
+        color: #ffffff;
+        background-color: #5cc4ef;
+        border-radius: 4px;
+    }
+    .timePicker-footer {
+        text-align: right;
+        padding: 10px 10px 5px;
+        margin-top: 5px;
+        border-top: 1px solid #efefef;
+    }
+    .timePicker-clean{
+        margin-right:5px;
+    }
+    .timePicker-content {
+        width: 270px;
+        ;
+        padding: 4px;
+    }
+    .timePicker-content-time {
+        width: auto;
+    }
+    .timePicker-prev,
+    .timePicker-next {
+        width: 32px;
+        height: 32px;
+        text-align: center;
+    }
+    .timePicker-prev {
+        float: left;
+    }
+    .timePicker-next {
+        float: right;
+    }
+    .timePicker-nav {
+        border-bottom: 1px solid #efefef;
+        min-height: 32px;
+        line-height: 32px;
+        padding: 4px;
+        text-align: center;
+        &>span {
+            display: inline-block;
+            vertical-align: middle;
+            cursor: pointer;
+            padding-right: 5px;
+        }
+    }
+    .timePicker-item {
+        border-radius: 4px;
+        cursor: pointer;
+        height: 32px;
+        z-index: 1;
+        text-align: center;
+        line-height: 32px;
+        &:hover {
+            background-color: #f0f0f0;
+        }
+        &:active,
+        &.active {
+            color: #fff;
+            background: #5cc4ef;
+        }
+        &.timePicker-disable {
+            color: #dedede;
+        }
+    }
+    .timePicker-day-title-list,
+    .timePicker-day-list {
+        clear: both;
+    }
+    .timePicker-day-main {
+        .timePicker-item {
+            width: 14.28571%;
+            float: left;
+        }
+    }
+    .timePicker-day-title-list {
+        .timePicker-item {
+            color: #FF9A19;
+            cursor: default;
+            &:hover {
+                background: none;
+            }
+        }
+    }
+    .timePicker-month-main {
+        height: 170px;
+        .timePicker-item {
+            width: 33.33%;
+            height: 25%;
+            float: left;
+            line-height: 42px;
+        }
+    }
+    .timePicker-year-main {
+        .timePicker-item {
+            width: 25%;
+            height: 33.33%;
+            float: left;
+            line-height: 56.66px;
+        }
+    }
+    //小时
+    //分钟,秒
+    .timePicker-time-main{
+        text-align: left;
+    }
+    .timePicker-minute-main,
+    .timePicker-second-main,
+    .timePicker-hour-main {
+        text-align: left;
+        display: inline-block;
+        margin-right: 5px;
+
+        .timePicker-minute-list-main,
+        .timePicker-second-list-main,
+        .timePicker-hour-list-main {
+            position: relative;
+            min-width: 50px;
+            display: inline-block;
+        }
+        .timePicker-select {
+            border: 1px solid #efefef;
+            border-radius: 3px;
+            position: relative;
+            width: 37px;
+            padding-right: 15px;
+        }
+        .timePicker-triangle {
+            width: 10px;
+            position: absolute;
+            top: 50%;
+            margin-top: -3px;
+            right: 7px;
+        }
+    }
+    .timePicker-minute-list,
+    .timePicker-second-list,
+    .timePicker-hour-list {
+        position: absolute;
+        width: 54px;
+        background: #fff;
+        border: 1px solid #efefef;
+        bottom: 100%;
+        padding: 0 4px;
+        z-index: 1000;
+        max-height: 289px;
+        overflow: auto;
+    }
+    .timePicker-moring-list {
+        border-bottom: 1px solid #eee;
+    }
+    .timePicker-minute-icon>img {
+        vertical-align: -3px;
+    }
+}
