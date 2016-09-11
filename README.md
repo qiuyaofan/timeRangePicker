@@ -15,5 +15,13 @@ hide:function(){},
 beforeHide:function(){}
 
 ```
-
-
+#note of options
+```
+isRange:if true mean start time will less than end time,false is no limit
+format:YYYY-MM-DD hh:mm:ss||YYYY-MM-DD hh:mm ||YYYY-MM-DD(the option does't work on the input value,but effect the timepickerRange-wrap style and buttons type)
+minDate:the min value of timePickerRange
+maxDate:max
+show:work after the picker wrap show
+hide:work after the picker wrap remove
+beforeHide:work before the picker wrap remove
+```
