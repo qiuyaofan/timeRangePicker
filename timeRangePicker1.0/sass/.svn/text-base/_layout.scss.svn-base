@@ -1,0 +1,411 @@
+/**
+ * 选项卡 - 1
+ * @描述 ： 底边3像素蓝色
+ * @场景 ： 快速建模弹层、
+ */
+.tab-1{
+	background-color: #fff;
+	border-bottom: 1px #ccc solid;
+	a{
+		display: inline-block;
+		padding:20px 20px 10px 20px;
+		font-size: 14px;
+		color: nth($font-color,1);
+		position: relative;
+		top: 1px;
+	}
+	a:hover{
+		color:nth($font-color,3);
+		text-decoration: none;
+	}
+	a.active{
+		border-bottom: 4px nth($theme-color,1)	solid;
+	}
+}
+/**
+ * 选项卡 - 2
+ * @描述 ： 蓝底白字、左上右上圆角
+ */
+.tab-2{
+	background-color: #fff;
+	border-radius:3px;
+	a{
+		display: inline-block;
+		height: 45px;
+		line-height: 45px;
+		font-size: 14px;
+		text-align: center;
+		padding: 0 25px;
+		position: relative;
+		color: nth($font-color,2);
+	}
+	a:hover{
+		text-decoration: none;
+		color: nth($theme-color,1);
+	}
+	a.active{
+		background-color: nth($theme-color,1);
+		color: #fff;
+		border-top-left-radius:3px;
+		border-top-right-radius:3px;
+
+	}
+}
+
+/**
+ * 选项卡 - 3
+ * @场景 ： 统计查询 - 详情
+ * @路径 ： smart-query/detail.php
+ * @描述 ：浅蓝色底，白色字体，选中为黑色的导航
+ */
+.tab-3{
+    background-color: #d8dbde;
+    font-size: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    a {
+        padding: 11px 22px;
+        display: inline-block;
+        font-size: 14px;
+        color: #666;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        &:hover {
+            color: #1d2939;
+        }
+        &.active {
+            background-color: #fff;
+            &:hover {
+                color: #333;
+            }
+        }
+    }
+}
+
+/**
+ * 选项卡 - 11
+ * @描述 ： 管道符号 '|' 分割，白底蓝字
+ */
+.tab-11 {
+    padding: 13px 4px;
+    background-color: #fff;
+    border-top: 1px #d2d6de solid;
+    a {
+        display: inline-block;
+        padding: 0 18px;
+        font-size: 14px;
+        color: nth($font-color, 1);
+        position: relative;
+        border-right: 1px solid #999;
+        &:last-child {
+            border-right: none;
+        }
+    }
+    a:hover {
+        color: nth($theme-color, 1);
+        text-decoration: none;
+    }
+    a.active {
+        color: nth($theme-color, 1);
+    }
+}
+
+/**
+ * 选项卡 - 13
+ * @描述 ： 顶边3px蓝色，左右边框灰色间隔
+ */
+.tab-13 {
+    position: relative;
+    font-size: 0;
+    background-color: #fff;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    .line {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #f4f4f4;
+    }
+    a {
+        display: inline-block;
+        padding: 10px 18px;
+        font-size: 14px;
+        color: nth($font-color, 1);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        &:hover {
+            color: nth($theme-color, 1);
+            text-decoration: none;
+        }
+        &.active {
+            position: relative;
+            padding-top: 7px;
+            padding-bottom: 11px;
+            border-top: 3px solid nth($theme-color, 1);
+            border-right: 1px solid #f4f4f4;
+            border-left: 1px solid #f4f4f4;
+            background-color: #fff;
+            z-index: 2;
+        }
+        &:first-child {
+            border-left: 1px solid #fff;
+        }
+    }
+}
+/**
+ * 头部－1
+ * @描述 ：带下划线的16px标题
+ */
+.header-1{
+    padding:10px 20px;
+    color: nth($font-color,1);
+    font-size: 16px;
+    border-bottom:1px #f4f4f4 solid;
+    .sub-header{
+        font-size: 14px;
+    }
+}
+
+/**
+ * 表格－1
+ * @描述 ：宽度100%，标题无样式表格
+ */
+.table-1{
+    width: 100%;
+    max-width: 100%;
+    font-size: 14px;
+    tbody td.link a{
+        color:#999;
+        &:hover{
+            color: #666;
+        }
+    }
+
+    thead th{
+        color: nth($font-color,1);
+
+    }
+    tbody td{
+        color:nth($font-color,2);
+    }
+    tbody td:last-child{
+        a{
+            color: #89c7ee;
+            margin-right:10px;
+            &:hover{
+                color:nth($theme-color,1);
+            }
+        }
+    }
+    th,td{
+        border:1px #f4f4f4 solid;
+        padding:10px;
+        font-weight: normal;
+        i{
+            color:#999;
+            font-size: 12px;
+            font-style:normal;
+        }
+    }
+    tr.bold{
+        th,td{
+            font-weight: bold;
+        }
+
+    }
+    .lv-2{
+       >td{
+        background-color: #ecf0f6;
+        color: nth($font-color,2);
+        border:none;
+        font-size: 12px;
+       }
+       >td:first-child{
+        text-indent: 32px;
+       }
+    }
+    .tc{
+        th,td{
+            text-align: center;
+        }
+    }
+}
+
+
+/**
+ * 表格 - 1
+ * @描述 ： 深蓝底、数据展示
+ */
+.table-2{
+    background-color: nth($theme-color,1);
+    width: 100%;
+    max-width: 100%;
+    th{
+        font-size: 24px;
+        vertical-align: top;
+        padding-bottom:4px;
+        line-height: 1;
+        padding-top: 10px;
+    }
+    td{
+        font-size: 12px;
+        padding-bottom: 10px;
+    }
+    th,td{
+        text-align: center;
+        color: #fff;
+        border-right: 1px #8ed7cd solid;
+        font-weight: normal;
+    }
+    th:last-child,td:last-child{
+        border-right: none;
+    }
+    a{
+        color:#bcbcbc;
+    }
+    i.fa.fa-lg.fa-angle-right{
+        font-size: 1.5em;
+    }
+    .btn-xs{
+        color: #fff;
+    }
+}
+
+/**
+ * 左图右文卡
+ * @场景 ： 智能查询 - 个人详情
+ * @路径 ： smart-query/yz-detail.php
+ */
+.card-1 {
+    padding-bottom: 34px;
+    .tab-l {
+        float: left;
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+        >img {
+            border-radius: 100%;
+        }
+    }
+    .tab-r {
+        overflow: hidden;
+        padding-left: 16px;
+    }
+    .name {
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 0;
+        >span {
+            color: nth($font-color, 3);
+        }
+    }
+    .text {
+        color: nth($font-color, 3);
+    }
+}
+
+/**
+ * 权限树
+ * @场景 ： 角色管理
+ */
+
+.tree-1{
+	.lv-1{
+		margin-bottom: 20px;
+	}
+	.lv-1 .title{
+		display: block;
+		color:nth($font-color,1);
+		border-bottom: 1px #ddd solid;
+		margin-bottom: 10px;
+		padding-bottom: 5px;
+		padding-left: 0;
+		margin-right: 0;
+		span{
+			float: right;
+			font-size: 12px;
+		}
+		input{
+			float: right;
+			position: static;
+			margin: 0;
+			padding: 0;
+		}
+	}
+	.lv-1 label{
+		margin-bottom: 10px;
+		color:nth($font-color,2);
+	}
+}
+
+/**
+ * 按钮组间距修正
+ * @场景 ： 新建期刊、邮件、短信任务
+ */
+.operate-group .btn{
+	margin-right: 6px;
+}
+
+
+/**
+ * 标签
+ * lable-select : 标签选择组件
+ * theme : 主题色
+ */
+
+.label-theme,.lable-select {
+    font-size: 0;
+    span {
+        padding: 5px 15px;
+        border-radius: 3px;
+        display: inline-block;
+        margin-bottom: 10px;
+        margin-right: 5px;
+        font-size: 14px;
+    }
+}
+.label-theme span{
+    background-color: nth($theme-color,1);
+    color: #fff;
+}
+/**
+ * 标签
+ * lable-select : 标签选择组件
+ * 描述：白底，表框，字体黑色。选中后主题色底白字
+ */
+.lable-select{
+    span{
+        background-color: #fff;
+        border: 1px solid #e3e7ea;
+        color: #666;
+        &.active{
+            color:#fff;
+            background-color:#7cc5bb;
+        }
+    }
+}
+/**
+ *  标记
+ *  @annex : 回旋针
+ */
+.flag-annex {
+    position: relative;
+    width: 270px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #e8e8e8;
+    background: #f7f5f5;
+    display: block;
+    padding-left: 69px;
+    &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 56px;
+        height: 38px;
+        text-align: center;
+        display: inline-block;
+        background: #e3e8ec url(http://img.yi114.com/20151129105816_edm.png) no-repeat center center;
+    }
+}

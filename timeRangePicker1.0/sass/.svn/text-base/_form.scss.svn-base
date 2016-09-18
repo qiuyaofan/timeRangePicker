@@ -1,0 +1,350 @@
+/**
+ *  globa - placeholder 字体颜色
+ */
+
+*::-webkit-input-placeholder{
+	color:#ccc;
+}
+
+/**
+ * 搜索框-搜索整体样式修正
+ */
+.form-layer-search {
+    .form-control {
+        height: 30px;
+    }
+    .input-group-btn .btn-search {
+        height: 30px;
+    }
+    .fa-lg {
+        vertical-align: 0;
+    }
+}
+
+
+/**
+ * 搜索框-搜索按钮样式修正
+ */
+.input-group{
+	.form-control:focus{
+		transition:none;
+		border-color: #ccc;
+	}
+}
+
+/**
+ * 搜索框 - 搜索按钮样式修正
+ */
+.btn-search{
+	display: table-cell;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+
+/**
+ * 时间范围 - 左右圆角
+ */
+.input-daterange-sandbox,.input-daterange
+{
+	input:first-child{
+		border-right: none;
+	}
+	input:last-child{
+		border-left: none;
+	}
+}
+
+/**
+ * 字数统计
+ */
+.input-typeCount{
+	position: relative;
+	input{
+		padding-right:50px;
+	}
+	span.count{
+		color: nth($font-color,3);
+	}
+	span.count.error{
+		color: nth($theme-color,1);
+	}
+	span.count.rb{
+		top: auto;
+		bottom: 8px;
+	}
+}
+
+/**
+ * mixins - 单选复选公共样式样式
+ */
+%custom-radio-checkbox{
+	input[type="radio"],input[type="checkbox"]{
+		-webkit-appearance: none;
+		display: inline-block;
+		font: normal normal normal 16px/1 FontAwesome;
+		text-rendering: auto;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		color:#c4c4c4;
+		margin-top:1px;
+		&:focus{
+			outline:none;
+		}
+		&:disabled:before{
+			color:#ccc;
+			content:'\f147';
+		}
+	}
+	&.large{
+		input[type="radio"],input[type="checkbox"]{
+			font: normal normal normal 18px/1 FontAwesome;
+		}
+
+	}
+}
+
+/**
+ * 单复选框样式修正 - 正方形样式
+ */
+.form-checkbox{
+	@extend %custom-radio-checkbox;
+	input[type="radio"],input[type="checkbox"]{
+		margin-top:2px;
+		&:before{
+			content: "\f096";
+			display: inline-block;
+			width: 13px;
+		}
+	}
+	input[type="radio"]:checked,input[type="checkbox"]:checked{
+		color: nth($theme-color,1);
+		margin-top:2px;
+		&:before{
+			content: "\f14a";
+			display: inline-block;
+			width: 13px;
+		}
+	}
+}
+
+
+/**
+ * 单复选框样式修正 - 圆形样式
+ */
+.form-radio{
+	@extend %custom-radio-checkbox;
+	input[type="radio"],input[type="checkbox"]{
+		&:before{
+			content: "\f10c";
+			display: inline-block;
+			width: 13px;
+		}
+	}
+	input[type="radio"]:checked,input[type="checkbox"]:checked{
+		color: nth($theme-color,1);
+		&:before{
+			content: "\f058";
+			display: inline-block;
+			width: 13px;
+		}
+	}
+}
+
+/**
+ * global - 普通搜索 - 表单样式修正
+ */
+.form-horizontal{
+	.form-group{
+		position: relative;
+		margin-bottom: 0;
+		margin-top: 25px;
+	}
+	.remark{
+		line-height: 34px;
+		color: nth($font-color,3);
+		font-weight: normal;
+	}
+	.control-label{
+		font-weight: normal;
+		text-align: right;
+	}
+	.form-group:last-child{
+		margin-bottom: 25px;
+	}
+	.help-block{
+		position: absolute;
+		left: 10px;
+		top: 100%;
+	}
+	.form-text{
+		padding-top:7px;
+	}
+}
+
+/**
+ * 纵向排列单复选框
+ * global - label.form-block > input:radio/checkbox
+ *
+ */
+.form-block{
+	display: block;
+    margin-top: 7px;
+    line-height: 1.5;
+	font-weight: normal;
+	input{
+		margin-right: 5px;
+	}
+}
+
+/**
+ * 期刊任务/短信任务专用表单样式
+ */
+
+.email-group{
+	@extend .clearfix;
+	position: relative;
+	margin-top: 25px;
+	input:-webkit-autofill {
+	    -webkit-box-shadow: 0 0 0 1000px #f6f2ef inset
+	}
+	select{
+		background-color: transparent;
+		border: none;
+		box-shadow: none;
+		color: #333;
+		margin-top: -4px;
+		margin-left:-7px;
+	}
+	.name{
+		display: block;
+		padding:5px 0;
+		color: #666;
+		position: absolute;
+		top:-2px;
+	}
+	.control{
+		background:transparent;
+	    width: 100%;
+	    min-height: 26px;
+	    padding-left: 70px;
+	    border:none;
+		border-bottom: 1px #ddd solid;
+		font-size: 14px;
+		&.word-2{
+			padding-left: 40px;
+			select{
+				left: 32px;
+			}
+		}
+	    &:focus{
+	    	outline: 0;
+			border-bottom: 1px nth($theme-color,1) solid;
+			@include transition(border-bottom-color .3s ease-in-out);
+	    }
+	    &:focus + span.name{
+			color: nth($theme-color,1);
+			@include transition(color .3s ease-in-out);
+	    }
+
+	    .shade{
+	    	position: relative;
+	    	.shade-div{
+	    		position: absolute;
+	    		width: 100%;
+	    		height: 100%;
+	    		z-index: 1;
+	    		top: 0;
+	    		left: 0;
+	    	}
+	    }
+	}
+	div.control{
+		font-size: 0;
+		vertical-align: top;
+	}
+	input.control{
+		min-height: 31px;
+		padding-bottom: 5px;
+	}
+	.btn-init{
+		color: #ccc;
+		font-size: 14px;
+		width: 25px;
+		height: 24px;
+		border:1px #ccc solid;
+		border-radius: 2px;
+		display: inline-block;
+		text-align: center;
+		line-height: 20px;
+		&:hover,&.active{
+			color:nth($theme-color,1);
+			border:1px nth($theme-color,1) solid;
+			background-color: #fff;
+		}
+	}
+	.list,.control div.Tokenize ul.TokensContainer{
+		span.item,li.Token{
+			border:1px #ddd solid;
+			border-radius: 4px;
+			background-color: #fff;
+			padding: 3px 10px;
+			font-size: 12px !important;
+			margin-right: 10px;
+			margin-left:0;
+			color: #666;
+			display: inline-block;
+			margin-bottom: 5px;
+			height: 23px;
+    		line-height: 14px;
+			&:hover{
+				color:nth($theme-color,1);
+				a.Close{
+					color:nth($theme-color,1);
+				}
+			}
+		}
+		li.Token{
+			height: 23px;
+    		line-height: 17px;
+
+		}
+		i.del{
+			position:relative;
+			top:1px;
+			font-style: normal;
+		    font-size: 16px;
+		    margin-left: 5px;
+		    cursor: pointer;
+		    font-family: Arial, Helvetica, sans-serif !important;
+		}
+		li.Token a.Close{
+			font-style: normal;
+			color: #666;
+		    font-size: 14px;
+		    margin: 0;
+		    margin-left: 10px;
+		    line-height: 16px;
+		}
+	}
+	.list{
+		display: inline-block;
+		vertical-align: top;
+		min-height: 30px;
+
+	}
+
+	.help-block{
+		position: absolute;
+		top: 100%;;
+	}
+}

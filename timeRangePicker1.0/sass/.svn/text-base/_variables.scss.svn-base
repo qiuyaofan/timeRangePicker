@@ -1,0 +1,4 @@
+$z-index:1000;
+$theme-color:#1caf9a #7cc5bb #ecf0f6 #92b6cc;
+$font-color:#333333 #666 #999 #bcbcbc;
+$border-color:#d2d6de #e7ebf0;

@@ -1,0 +1,10 @@
+// Requirements
+// ============
+
+@import "susy";
+
+$susy: (
+  columns: 12,
+  container: 1200px,
+  gutters: 3/20
+);
