@@ -8,12 +8,24 @@
     <link rel="stylesheet" href="css/timeRangePicker.css">
 
 	<style>
-
+        .time-layout,.time-name{
+            float: left;
+            padding:0 7px;
+        }
+        .time-name{
+            width: 50px;
+        }
+        .time-layout{
+            width: 100px;
+        }
+        .form-control{
+            width:100%;
+        }
 	</style>
 </head>
 <body>
 
-<p>时分秒，范围选择，有最大值最小值</p>
+<p>时分秒（YYYY-MM-DD hh:mm:ss），范围选择，有最大值最小值</p>
 <p>minDate:'1980-10-22',maxDate:'1993-10-29'</p>
 <div class="J-timeRangePicker-3">
     <input type="text" role="timePicker">
@@ -23,11 +35,7 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<p>时分秒，范围选择</p>
+<p>时分秒（YYYY-MM-DD hh:mm:ss），范围选择，选择完日期不关闭日期选择</p>
 <div class="J-timeRangePicker">
     <input type="text" role="timePicker">
     <input type="text" role="timePicker">
@@ -36,11 +44,7 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<p>时分秒，范围选择：父元素和上面的类名一样</p>
+<p>时分秒（YYYY-MM-DD hh:mm:ss），范围选择：父元素和上面的类名一样</p>
 <div class="J-timeRangePicker">
     <input type="text" role="timePicker">
     <input type="text" role="timePicker">
@@ -48,11 +52,7 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<p>时分，范围选择</p>
+<p>年月日＋时分（YYYY-MM-DD hh:mm），范围选择</p>
 <div class="J-timeRangePicker-1">
     <input type="text" role="timePicker">
     <input type="text" role="timePicker">
@@ -62,16 +62,45 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<p>没有时分秒只有日期，单个选择.选择完日期自动移除弹层</p>
+<p>单个选择年月日（YYYY-MM-DD）</p>
 <div class="J-timeRangePicker-2">
     <input type="text" role="timePicker" value="2014-08-12">
-    <input type="text" role="timePicker">
 </div>
+<br>
+<br>
+<br>
+<br>
+<!-- 时分秒分开 -->
+<p>日期和时分秒选择分开（YYYY-MM-DD+hh:mm:ss+hh:mm:ss）</p>
+<div class="J-time-main">
+    <div class="time-name">时间：</div>
+    <div class="J-timeRangePicker-2 time-layout">
+        <input type="text" class="form-control" role="timePicker" value="" placeholder="查询日期">
+    </div>
 
-
+    <div class="J-timePickerRange-time time-layout">
+        <input type="text" role="timePicker" class="form-control J-time-range" placeholder="开始时分" data-director="right">
+    </div>
+    <div class="J-timePickerRange-time-end time-layout">
+        <input type="text" role="timePicker" class="form-control J-time-range" placeholder="结束时分" data-director="right">
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/timeRangePicker.js"></script>
 <!-- <script src="http://img.yi114.com/assets/5f47cc97712088482dd1a932f3e802d0.js"></script> -->

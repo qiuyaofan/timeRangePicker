@@ -1,4 +1,4 @@
-/* line 20, ../sass/timeRangePicker.scss */
+/* line 25, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -18,33 +18,45 @@
   position: absolute;
   z-index: 100;
 }
-/* line 38, ../sass/timeRangePicker.scss */
+/* line 26, ../sass/timeRangePicker.scss */
+.timeRangePicker-wrap * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 29, ../sass/timeRangePicker.scss */
+.timeRangePicker-wrap *:before, .timeRangePicker-wrap *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 50, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .hide {
   display: none;
 }
-/* line 42, ../sass/timeRangePicker.scss */
+/* line 54, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .clearfix:before,
 .timeRangePicker-wrap .clearfix:after {
   content: " ";
   display: table;
 }
-/* line 48, ../sass/timeRangePicker.scss */
+/* line 60, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .clearfix:after {
   clear: both;
 }
-/* line 51, ../sass/timeRangePicker.scss */
+/* line 63, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap a {
   text-decoration: none;
   cursor: pointer;
 }
-/* line 55, ../sass/timeRangePicker.scss */
+/* line 67, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap a:focus,
 .timeRangePicker-wrap button:focus,
 .timeRangePicker-wrap div,
 .timeRangePicker-wrap input:focus {
   outline: none;
 }
-/* line 61, ../sass/timeRangePicker.scss */
+/* line 73, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-btn {
   border: 1px solid #dcdcdc;
   padding: 4px 12px;
@@ -52,120 +64,132 @@
   background-color: #5cc4ef;
   border-radius: 4px;
 }
-/* line 68, ../sass/timeRangePicker.scss */
+/* line 80, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-footer {
   text-align: right;
   padding: 10px 10px 5px;
   margin-top: 5px;
   border-top: 1px solid #efefef;
 }
-/* line 74, ../sass/timeRangePicker.scss */
-.timeRangePicker-wrap .timePicker-clean {
+/* line 86, ../sass/timeRangePicker.scss */
+.timeRangePicker-wrap .timePicker-clean, .timeRangePicker-wrap .timePicker-cancel {
   margin-right: 5px;
+  background: #fff;
+  color: #666;
 }
-/* line 77, ../sass/timeRangePicker.scss */
+/* line 91, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-content {
   width: 270px;
   padding: 4px;
 }
-/* line 82, ../sass/timeRangePicker.scss */
+/* line 96, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-content-time {
   width: auto;
 }
-/* line 85, ../sass/timeRangePicker.scss */
+/* line 99, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-prev,
 .timeRangePicker-wrap .timePicker-next {
   width: 32px;
   height: 32px;
   text-align: center;
 }
-/* line 91, ../sass/timeRangePicker.scss */
+/* line 105, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-prev {
   float: left;
 }
-/* line 94, ../sass/timeRangePicker.scss */
+/* line 108, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-next {
   float: right;
 }
-/* line 97, ../sass/timeRangePicker.scss */
-.timeRangePicker-wrap .timePicker-nav {
+/* line 111, ../sass/timeRangePicker.scss */
+.timeRangePicker-wrap .timePicker-time-title {
+  width: 270px;
+}
+/* line 114, ../sass/timeRangePicker.scss */
+.timeRangePicker-wrap .timePicker-nav, .timeRangePicker-wrap .timePicker-time-title {
   border-bottom: 1px solid #efefef;
   min-height: 32px;
   line-height: 32px;
   padding: 4px;
   text-align: center;
 }
-/* line 103, ../sass/timeRangePicker.scss */
-.timeRangePicker-wrap .timePicker-nav > span {
+/* line 120, ../sass/timeRangePicker.scss */
+.timeRangePicker-wrap .timePicker-nav > span, .timeRangePicker-wrap .timePicker-time-title > span {
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
   padding-right: 5px;
 }
-/* line 110, ../sass/timeRangePicker.scss */
+/* line 127, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-item {
   border-radius: 4px;
   cursor: pointer;
-  height: 32px;
+  height: 29px;
   z-index: 1;
   text-align: center;
-  line-height: 32px;
+  line-height: 29px;
 }
-/* line 117, ../sass/timeRangePicker.scss */
+/* line 134, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-item:hover {
   background-color: #f0f0f0;
 }
-/* line 120, ../sass/timeRangePicker.scss */
+/* line 137, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-item:active, .timeRangePicker-wrap .timePicker-item.active {
   color: #fff;
   background: #5cc4ef;
 }
-/* line 125, ../sass/timeRangePicker.scss */
+/* line 142, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-item.timePicker-disable {
   color: #dedede;
 }
-/* line 129, ../sass/timeRangePicker.scss */
+/* line 146, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-day-title-list,
 .timeRangePicker-wrap .timePicker-day-list {
   clear: both;
 }
-/* line 134, ../sass/timeRangePicker.scss */
+/* line 151, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-day-main .timePicker-item {
   width: 14.28571%;
   float: left;
 }
-/* line 140, ../sass/timeRangePicker.scss */
+/* line 157, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-day-title-list .timePicker-item {
   color: #FF9A19;
   cursor: default;
 }
-/* line 143, ../sass/timeRangePicker.scss */
+/* line 160, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-day-title-list .timePicker-item:hover {
   background: none;
 }
-/* line 148, ../sass/timeRangePicker.scss */
+/* line 165, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-month-main {
   height: 170px;
 }
-/* line 150, ../sass/timeRangePicker.scss */
+/* line 167, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-month-main .timePicker-item {
   width: 33.33%;
   height: 25%;
   float: left;
   line-height: 42px;
 }
-/* line 158, ../sass/timeRangePicker.scss */
+/* line 175, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-year-main .timePicker-item {
   width: 25%;
   height: 33.33%;
   float: left;
   line-height: 56.66px;
 }
-/* line 167, ../sass/timeRangePicker.scss */
+/* line 184, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-time-main {
   text-align: left;
 }
-/* line 170, ../sass/timeRangePicker.scss */
+/* line 187, ../sass/timeRangePicker.scss */
+.timeRangePicker-wrap .timePicker-time-main.timePicker-bottom .timePicker-minute-list,
+.timeRangePicker-wrap .timePicker-time-main.timePicker-bottom .timePicker-second-list,
+.timeRangePicker-wrap .timePicker-time-main.timePicker-bottom .timePicker-hour-list {
+  bottom: auto;
+}
+/* line 194, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-minute-main,
 .timeRangePicker-wrap .timePicker-second-main,
 .timeRangePicker-wrap .timePicker-hour-main {
@@ -173,7 +197,7 @@
   display: inline-block;
   margin-right: 5px;
 }
-/* line 177, ../sass/timeRangePicker.scss */
+/* line 201, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-minute-main .timePicker-minute-list-main,
 .timeRangePicker-wrap .timePicker-minute-main .timePicker-second-list-main,
 .timeRangePicker-wrap .timePicker-minute-main .timePicker-hour-list-main,
@@ -187,17 +211,17 @@
   min-width: 50px;
   display: inline-block;
 }
-/* line 184, ../sass/timeRangePicker.scss */
+/* line 208, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-minute-main .timePicker-select,
 .timeRangePicker-wrap .timePicker-second-main .timePicker-select,
 .timeRangePicker-wrap .timePicker-hour-main .timePicker-select {
   border: 1px solid #efefef;
   border-radius: 3px;
   position: relative;
-  width: 37px;
+  width: 47px;
   padding-right: 15px;
 }
-/* line 191, ../sass/timeRangePicker.scss */
+/* line 215, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-minute-main .timePicker-triangle,
 .timeRangePicker-wrap .timePicker-second-main .timePicker-triangle,
 .timeRangePicker-wrap .timePicker-hour-main .timePicker-triangle {
@@ -207,7 +231,7 @@
   margin-top: -3px;
   right: 7px;
 }
-/* line 199, ../sass/timeRangePicker.scss */
+/* line 223, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-minute-list,
 .timeRangePicker-wrap .timePicker-second-list,
 .timeRangePicker-wrap .timePicker-hour-list {
@@ -221,11 +245,11 @@
   max-height: 289px;
   overflow: auto;
 }
-/* line 212, ../sass/timeRangePicker.scss */
+/* line 236, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-moring-list {
   border-bottom: 1px solid #eee;
 }
-/* line 215, ../sass/timeRangePicker.scss */
+/* line 239, ../sass/timeRangePicker.scss */
 .timeRangePicker-wrap .timePicker-minute-icon > img {
   vertical-align: -3px;
 }

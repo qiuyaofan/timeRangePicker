@@ -16,8 +16,20 @@
 //     position: absolute;
 //     z-index: 100;
 // }
-
+// Box sizing
+@mixin box-sizing($boxmodel) {
+  -webkit-box-sizing: $boxmodel;
+     -moz-box-sizing: $boxmodel;
+          box-sizing: $boxmodel;
+}
 .timeRangePicker-wrap {
+    & * {
+      @include box-sizing(border-box);
+    }
+    & *:before,
+    & *:after {
+      @include box-sizing(border-box);
+    }
     -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -71,8 +83,10 @@
         margin-top: 5px;
         border-top: 1px solid #efefef;
     }
-    .timePicker-clean{
+    .timePicker-clean,.timePicker-cancel{
         margin-right:5px;
+        background: #fff;
+        color: #666;
     }
     .timePicker-content {
         width: 270px;
@@ -94,7 +108,10 @@
     .timePicker-next {
         float: right;
     }
-    .timePicker-nav {
+    .timePicker-time-title{
+        width: 270px;
+    }
+    .timePicker-nav,.timePicker-time-title {
         border-bottom: 1px solid #efefef;
         min-height: 32px;
         line-height: 32px;
@@ -110,10 +127,10 @@
     .timePicker-item {
         border-radius: 4px;
         cursor: pointer;
-        height: 32px;
+        height: 29px;
         z-index: 1;
         text-align: center;
-        line-height: 32px;
+        line-height: 29px;
         &:hover {
             background-color: #f0f0f0;
         }
@@ -166,6 +183,13 @@
     //分钟,秒
     .timePicker-time-main{
         text-align: left;
+        &.timePicker-bottom{
+            .timePicker-minute-list,
+            .timePicker-second-list,
+            .timePicker-hour-list{
+                bottom: auto;
+            }
+        }
     }
     .timePicker-minute-main,
     .timePicker-second-main,
@@ -185,7 +209,7 @@
             border: 1px solid #efefef;
             border-radius: 3px;
             position: relative;
-            width: 37px;
+            width: 47px;
             padding-right: 15px;
         }
         .timePicker-triangle {

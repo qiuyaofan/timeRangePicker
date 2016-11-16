@@ -16,23 +16,32 @@ $('.J-timeRangePicker-1').timeRangePicker({
     isRange: true,
     format:'YYYY-MM-DD hh:mm'
 });
+
+//director
+picker:data-director||options director
  */
+
 
 
 $(function() {
     var  dateTimeRes=/^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])$/;
     var minuteTimeRes=/^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])\s(0\d{1}|1\d{1}|2[0-3]):([0-5]\d{1})$/;
     var secondTimeRes=/^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])\s(0\d{1}|1\d{1}|2[0-3]):([0-5]\d{1}):([0-5]\d{1})$/;
+    var secondRes=/^(0\d{1}|1\d{1}|2[0-3]):([0-5]\d{1}):([0-5]\d{1})$/;
+    var minuteRes=/^(0\d{1}|1\d{1}|2[0-3]):([0-5]\d{1})$/;
     var $body=$('body');
     var timePickerDefaults = {
         isRange: false,
         format:'YYYY-MM-DD hh:mm:ss',
         minDate:'',
         maxDate:'',
+        startDate:'',
+        endDate:'',
         show:function(){},
         hide:function(){},
         beforeHide:function(){},
-        chooseDay:function(){}
+        chooseDay:function(){},
+        afterInit:function(){}
     };
     var renderTimeResult = renderTime();
     var templateParent = '<div class="timeRangePicker-wrap">' +
@@ -109,6 +118,7 @@ $(function() {
                     '</div>' +
                     '<div class="timePicker-footer">' +
                         '<a href="javascript:;" class="timePicker-btn timePicker-clean">清空</a>' +
+                        '<a href="javascript:;" class="timePicker-btn timePicker-cancel">取消</a>' +
                         '<a href="javascript:;" class="timePicker-btn timePicker-confirm">确定</a>' +
                     '</div>';
 
@@ -118,24 +128,35 @@ $(function() {
         }
         this.target = ele;
         this.options = $.extend({}, timePickerDefaults, options);
+        this.formatType=formatType(this.options.format);
         if (diffTime(this.options.minDate, this.options.maxDate)) {
             this.options.maxDate = '';
         }
-        this.maxDate = getDate(this.options.maxDate);
-        this.minDate = getDate(this.options.minDate);
+        this.maxDate = setInitValue.call(this,this.options.maxDate);
+        this.minDate = setInitValue.call(this,this.options.minDate);
+
         this.init();
         this.event();
+        this.options.afterInit(this);
     }
 
     TimeRangePicker.prototype = {
         init: function() {
             var $picker = this.target.find('[role="timePicker"]');
-            var dateStart = getInitDate.call(this,$picker.eq(0));
+            this.options.startDate?$picker.eq(0).val(setInitValue.call(this,this.options.startDate).time):false;
+            this.options.isRange&&this.options.endDate?$picker.eq(1).val(setInitValue.call(this,this.options.endDate).time):false;
+            this.setDataTime();
+            //this.render();
+        },
+        //设置初始化的data-time
+        setDataTime:function(){
+            var $picker = this.target.find('[role="timePicker"]');
+            var dateStart = getInitDate.call(this,$picker.eq(0),0);
             var time = dateStart.time;
             var cache = {};
             cache.begin = dateStart;
             if (this.options.isRange) {
-                var dateEnd = getInitDate.call(this,$picker.eq(1));
+                var dateEnd = getInitDate.call(this,$picker.eq(1),1);
                 time = time + ';' + dateEnd.time;
                 cache.end = dateEnd;
             }
@@ -146,7 +167,6 @@ $(function() {
             this.target.data('object', this);
 
             this.target.css('position', 'relative');
-            //this.render();
         },
         /*===========生成年份===============*/
         renderYear: function(index, year) {
@@ -241,8 +261,8 @@ $(function() {
             var nextMonthDay = everyMonthDay[Number(month)];
             var html = '';
             var j = 1;
-            var next = 'timePicker-next';
-            var prev = "timePicker-prev";
+            var next = 'timePicker-d-next';
+            var prev = "timePicker-d-prev";
             var min = 0;
             var max = activeMonthDay;
             if (this.minDate) {
@@ -296,34 +316,50 @@ $(function() {
                 var date = timePickerDataResult.call(_this).date;
                 var month = date.month;
                 if ($this.hasClass('timePicker-prev')) {
-                    month = month - 2;
+                    month = month - 1;
                 }
-                if (month < 0) {
-                    setCache.call(_this, date.year - 1, 'year', true,false);
-                    setCache.call(_this, 12, 'month', true);
-                    _this.updateRenderPicker();
-                    return;
-                    // month = 11;
+                if ($this.hasClass('timePicker-next')) {
+                    month = Number(month) +1;
                 }
-                if (month > 11) {
-                    setCache.call(_this, Number(date.year) + 1, 'year', true,false);
-                    setCache.call(_this, 1, 'month', true);
-                    _this.updateRenderPicker();
-                    return;
-                    // month = 0;
+                if (month < 1) {
+                    setCache.call(_this, date.year - 1, 'year', true,false,false);
+                     month = 12;
+                }else if (month > 12) {
+                    setCache.call(_this, Number(date.year) + 1, 'year', true,false,false);
+                    month = 1;
                 }
-                $('.timePicker-month-list .timePicker-item').eq(formatMonth(month)).trigger('click');
+                setCache.call(_this, month, 'month', true,true,false);
+
+                initActiveItem.call(_this,'year');
+                initActiveItem.call(_this,'month');
+                _this.updateRenderPicker();
             });
             //点击选择日期
             $body.off('click', '.timePicker-day-list .timePicker-item').on('click', '.timePicker-day-list .timePicker-item', function(event) {
                 var $this = $(this);
                 var _this = $('.timeRangePicker-wrap').data('object');
                 if ($this.hasClass('timePicker-disable')) {
+                    var tempDay=$this.html();
+                    if($this.hasClass('timePicker-d-next')){
+                        $('.timePicker-next').trigger('click');
+                    }
+                    if($this.hasClass('timePicker-d-prev')){
+                        $('.timePicker-prev').trigger('click');
+                    }
+                    if($this.hasClass('timePicker-d-prev')||$this.hasClass('timePicker-d-next')){
+                        setCache.call(_this, tempDay, 'day',true);
+                        initActiveItem.call(_this,'day');
+                    }
+
                     return false;
                 }
+
                 addClassActive($this);
                 setCache.call(_this, $this, 'day');
                 _this.options.chooseDay.call(_this,$this);
+                if(_this.formatType===1){
+                    _this.hidePicker();
+                }
             });
 
             //点击选择月份
@@ -430,13 +466,14 @@ $(function() {
                 event.stopPropagation();
                 var index = _this.target.data('target');
                 var nowIndex = _this.target.find('[role="timePicker"]').index($(this));
-                var length = _this.target.find('.timeRangePicker-wrap').length;
+                var length = $('.timeRangePicker-wrap').length;
+                var lengthSelf = _this.target.find('.timeRangePicker-wrap').length;
                 //1.如果不是范围则不处理第二个输入框。
                 //2.不处理大于2的输入框
                 if ((!_this.options.isRange && nowIndex >= 1) || nowIndex > 1) {
                     return false;
                 }
-                if (!length || ((index === 0 || index === 1) && (index != nowIndex))) {
+                if((lengthSelf && ((index === 0 || index === 1) && (index != nowIndex)))||!lengthSelf) {
                     _this.hidePicker();
                 }
                 if (!$('.timeRangePicker-wrap').length) {
@@ -456,6 +493,16 @@ $(function() {
 
             //点确定隐藏时间插件
             $body.off('click.timePickerConfirm').on('click.timePickerConfirm', '.timePicker-confirm', function(event) {
+                var _this = $('.timeRangePicker-wrap').data('object');
+                if(_this.formatType===3||_this.formatType===4){
+                    setCache.call(_this, $('.timeRangePicker-wrap .timePicker-hour-list .timePicker-item.active'), 'hour');
+                }else{
+                    setCache.call(_this, $('.timeRangePicker-wrap .timePicker-day-list .timePicker-item.active'), 'day');
+                }
+                hide();
+            });
+            //点取消隐藏时间插件
+            $body.off('click.timePickerCancel').on('click.timePickerCancel', '.timePicker-cancel', function(event) {
                 hide();
             });
 
@@ -489,6 +536,7 @@ $(function() {
 
         showPicker: function(target) {
             checkPicker.call(this);
+
             var index = this.target.find('[role="timePicker"]').index(target);
             var date = this.getDate()[index];
 
@@ -503,11 +551,22 @@ $(function() {
             //是否可以上一页下一页
             setNavDisable.call(this,date);
 
-            if (formatType(this.options.format) === 1) {
-                $('.timeRangePicker-wrap .timePicker-time-main').remove();
+            var $wrap=$('.timeRangePicker-wrap');
+            if (this.formatType === 1) {
+                $wrap.find('.timePicker-time-main').remove();
             }
-            if (formatType(this.options.format) === 2) {
-                $('.timeRangePicker-wrap .timePicker-second-main').remove();
+            if (this.formatType === 2) {
+                $wrap.find('.timePicker-second-main').remove();
+            }
+
+            if (this.formatType === 3||this.formatType === 4) {
+                $wrap.find('.timePicker-nav').addClass('hide');
+                $wrap.find('.timePicker-content-date').remove();
+                $wrap.prepend('<div class="timePicker-time-title">选择时分秒</div>');
+                $wrap.find('.timePicker-time-main').addClass('timePicker-bottom');
+            }
+            if (this.formatType === 4) {
+                $wrap.find('.timePicker-second-main').remove();
             }
 
             //存储时间输入框index
@@ -529,16 +588,31 @@ $(function() {
         hidePicker: function() {
             var _this = this;
             //隐藏前回调
-            _this.options.beforeHide(_this.target);
+            this.options.beforeHide(this.target);
+
             var result = timePickerDataResult.call(this);
             var $target = result.$target;
+            //兼容年月日－上一月下一月点击改变data-time,但是没填值的情况
+            if(this.formatType!==3&&this.formatType!==4){
+                var index = result.index;
+                var key = ['begin', 'end'];
+                var name = key[index];
+                var time = JSON.parse(JSON.stringify(result.time));
+                var $picker = this.target.find('[role="timePicker"]');
+                time[name]=getInitDate.call(_this,$picker.eq(index),index);
+                time.time=time.begin.time;
+                if(this.options.isRange){
+                    time.time=time.begin.time+';'+time.end.time;
+                }
+                this.target.data('time',time);
+            }
             //格式化输入框内的时间值
             fillFormatValue.call(_this, $target);
             //清空当前操作的input index
             _this.target.data('target', '');
             $body.find('.timeRangePicker-wrap').remove();
             //隐藏后回调
-            _this.options.hide(_this.target);
+            _this.options.hide.call(_this,_this.target);
         },
         //根据value更新data-time的值
         updatePicker: function() {
@@ -598,14 +672,37 @@ $(function() {
                 .replace('{{day}}', date.day);
             $('.timeRangePicker-wrap').html(html);
             initActiveItem.call(this);
-            if (formatType(this.options.format) === 1) {
+            if (this.formatType === 1) {
                 $('.timeRangePicker-wrap .timePicker-time-main').remove();
             }
-            if (formatType(this.options.format) === 2) {
+            if (this.formatType === 2) {
                 $('.timeRangePicker-wrap .timePicker-second-main').remove();
+            }
+        },
+        //index:1|2
+        timeRangeContorl:function(target,index){
+            if(!(target instanceof $)||target.length<2){
+                return false;
+            }
+            var start=target.eq(0).val();
+            var end=target.eq(1).val();
+            var temp=[start,end];
+            if(!start||!end||!secondRes.test(start)||!secondRes.test(end)){
+                return false;
+            }
+            tempStart=countSecond(start);
+            tempEnd=countSecond(end);
+
+            if(tempStart-tempEnd>0){
+                target.val(temp[index]);
             }
         }
     };
+    function countSecond(time){
+        var result=time.split(':');
+        result.length===2?result=result[0]* 60+result[1]:result.length===3?result=result[0]* 360+result[1]* 60+result[2]:false;
+        return result;
+    }
 
     function hide() {
         var _this = $('.timeRangePicker-wrap').data('object');
@@ -622,7 +719,16 @@ $(function() {
             value = $target.eq(i).val();
             //如果有val但是格式不对，则自动填充
             if (value && !isFormat(value)) {
-                var _value = formatType(this.options.format) === 0 ? result.date.time : result.date.time.split(' ')[0];
+
+                var _value = this.formatType === 0 ? result.date.time : this.formatType === 1?result.date.time.split(' ')[0]:this.formatType === 2?function(){
+                    var temp=result.date.time.split(':');
+                    temp.pop();
+                    return temp.join(':');
+                }:this.formatType === 3?result.time.time.split(' ')[1]:this.formatType === 4?function(){
+                    var temp=result.time.time.split(' ')[1].split(':');
+                    temp.pop();
+                    return temp.join(':');
+                }:false;
                 $target.eq(i).val(_value);
             }
         }
@@ -654,7 +760,7 @@ $(function() {
         if (this.options.isRange) {
             var _time = time.time.split(';');
             $.each($picker, function(index, el) {
-                var result=getInitDate.call(_this,$(el));
+                var result=getInitDate.call(_this,$(el),index);
                 dataTime.push(result.time);
             });
             time.time = dataTime.join(';');
@@ -669,10 +775,10 @@ $(function() {
     }
 
     //初始化获取数据并返回
-    function getInitDate($picker) {
+    function getInitDate($picker,index) {
         var value = $picker.val();
         var format = isFormat(value);
-        var result=format ? getDate(value) : getNowDate();
+        var result=format ? getDate(value) : (index===1||index===0)?getNowDate(index):getNowDate();
         value=filterRange.call(this,result).time;
         return value;
     }
@@ -688,11 +794,10 @@ $(function() {
             time.begin=filterRange.call(this,time.begin).time;
             time.time=time.begin.time;
         }
-
-        //console.info('timeRangeCompare',time);
         return time;
     }
 
+    //判断最大值，最小值并返回
     function filterRange(time){
         var isUpdate;
         if(this.maxDate&&diffTime(time.time,this.maxDate.time)){
@@ -725,6 +830,12 @@ $(function() {
             case 'YYYY-MM-DD hh:mm':
                 type = 2;
                 break;
+            case 'hh:mm:ss':
+                type = 3;
+                break;
+            case 'hh:mm':
+                type = 4;
+                break;
         }
         return type;
     }
@@ -735,6 +846,14 @@ $(function() {
         var index = this.target.data('target');
         var $picker = this.target.find('[role="timePicker"]').eq(index);
         var left = $picker.offset().left - this.target.offset().left;
+        if($picker.data('director')==='right'||this.options.director==='right'){
+            var right = left+$picker.outerWidth()-$('.timeRangePicker-wrap').outerWidth();
+            $('.timeRangePicker-wrap').css({
+                top: top,
+                left: right
+            });
+            return ;
+        }
         $('.timeRangePicker-wrap').css({
             top: top,
             left: left
@@ -753,7 +872,7 @@ $(function() {
     }
 
     //设置自定义的json 缓存数据
-    function setCache(ele, type, isValue ,isCompare) {
+    function setCache(ele, type, isValue ,isCompare,isfillValue) {
         //this是原型：timeRangePicker
         var result = timePickerDataResult.call(this);
         var name = result.key;
@@ -770,23 +889,23 @@ $(function() {
             updateNav(time[name], type);
             // $('.timePicker-' + type).text(time[name][type] + navText[type]);
         }
-        setTime.call(this, result.index, time, type,isCompare);
+        setTime.call(this, result.index, time, type,isCompare,isfillValue);
     }
 
     //设置自定义的json 缓存数据
-    function setTime(index, time, type,isCompare) {
+    function setTime(index, time, type,isCompare,isfillValue) {
         var $picker = this.target.find('[role="timePicker"]');
         var key = ['begin', 'end'];
         var name = key[index];
         var date = time[name];
         var val = $picker.eq(index).val();
-        var format = formatType(this.options.format);
+        var format = this.formatType;
 
-        if (format === 0 && (!val || type === 'minute' || type === 'hour' || type === 'second' || secondTimeRes.test(val))) {
+        if ((format === 0||format === 3||format === 4) && (!val || type === 'minute' || type === 'hour' || type === 'second' || secondTimeRes.test(val))) {
             time[name].time = date.year + '-' + formatTime(date.month) + '-' + formatTime(date.day) + ' ' + formatTime(date.hour) + ':' + formatTime(date.minute) + ':' + formatTime(date.second);
         } else if (format === 2 && (!val || type === 'minute' || type === 'hour' || minuteTimeRes.test(val))) {
             time[name].time = date.year + '-' + formatTime(date.month) + '-' + formatTime(date.day) + ' ' + formatTime(date.hour) + ':' + formatTime(date.minute);
-        } else {
+        }else{
             time[name].time = date.year + '-' + formatTime(date.month) + '-' + formatTime(date.day);
         }
 
@@ -795,12 +914,15 @@ $(function() {
         if (this.options.isRange) {
             var dateTime = time.time.split(';');
             dateTime[index] = time[name].time;
-            if (diffTime(dateTime[0], dateTime[1]) && $picker.eq(1 - index).val()) {
+            //范围选择时，开始时间大于结束时间
+            if (diffTime(dateTime[0], dateTime[1]) && $picker.eq(1 - index).val()&&val&&isfillValue!==false) {
                 dateTime[1 - index] = dateTime[index];
                 $picker.eq(1 - index).val(dateTime[1 - index]);
                 time = updateTime.call(this, date, time);
                 //更新头部nav的值
                 updateNav(time[name]);
+                //更新存储在input data的time值
+                time[key[[1 - index]]]=getDate(dateTime[1 - index]);
             }
             time.time = dateTime.join(';');
         } else {
@@ -815,20 +937,27 @@ $(function() {
         if(type==='year'||type==='month'){
             setNavDisable.call(this, time[name]);
         }
-
         this.target.data('time', time);
-        $picker.eq(index).val(time[name].time);
+        if(isfillValue!==false){
+            format === 3||format === 4?$picker.eq(index).val(formatTime(date.hour) + ':' + formatTime(date.minute) + ':' + formatTime(date.second)):$picker.eq(index).val(time[name].time);
+        }
+        // $picker.eq(index).val(time[name].time);
     }
 
     //根据最大值，最小值设置头部上一月下一月状态
     function setNavDisable(time) {
+
         if ((time.year > this.maxDate.year) || (time.year == this.maxDate.year && time.month >= this.maxDate.month)) {
             $('.timeRangePicker-wrap .timePicker-next').removeClass('timePicker-next');
             return;
+        }else{
+            $('.timePicker-nav').find('span').last().addClass('timePicker-next');
         }
         if ((time.year < this.minDate.year) || (time.year == this.minDate.year && time.month <= this.minDate.month)) {
             $('.timeRangePicker-wrap .timePicker-prev').removeClass('timePicker-prev');
             return;
+        }else{
+            $('.timePicker-nav').find('span').first().addClass('timePicker-prev');
         }
         // $('.timeRangePicker-wrap .timePicker-next').removeClass('timePicker-disable');
         // $('.timeRangePicker-wrap .timePicker-prev').removeClass('timePicker-disable');
@@ -836,7 +965,7 @@ $(function() {
 
     //更新时间 date：新的时间，time：旧的时间
     function updateTime(date, time) {
-        var format = formatType(this.options.format);
+        var format = this.formatType;
         var name = ['begin', 'end'];
         var str = [
             ['year', 'month', 'day', 'hour', 'minute', 'second'],
@@ -858,48 +987,48 @@ $(function() {
         // var result = timePickerDataResult.call(this);
         var $content = $('.timePicker-content-date');
         var $time = $('.timeRangePicker-wrap .timePicker-time-main');
-        $('.timePicker-content-time').addClass('hide');
+        // $('.timePicker-content-time').addClass('hide');
         $content.find('.timePicker-main').addClass('hide');
         $content.find('.timePicker-' + classType + '-main').removeClass('hide');
         initActiveItem.call(this);
-        if (classType === 'day') {
-            $time.removeClass('hide');
-        } else {
-            $time.addClass('hide');
-        }
     }
     //初始化选中日期状态
     function initActiveItem(type) {
+        var _this=this;
         var index = this.target.data('target');
         if (index !== 0 && index !== 1) {
             return false;
         }
         var result = timePickerDataResult.call(this);
+
         var typeStr = type ? [type] : ['year', 'month', 'day', 'hour', 'minute', 'second'];
         for (var i = 0; i < typeStr.length; i++) {
             type = typeStr[i];
             var value = result.date[type];
             var $item = $('.timePicker-' + type + '-list').find('.timePicker-item').not('.timePicker-disable');
             var hasActive;
-            if (!$item.length) {
+            if (!$item.length&&this.formatType!==3&&this.formatType!==4) {
                 return false;
             }
-            $item.removeClass('active');
-            $.each($item, function(index, el) {
-                if (Number($(el).text()) == value) {
-                    $(el).addClass('active');
-                    hasActive = 1;
-                    if (type === 'minute' || type === 'second' || type === 'hour') {
-                        $('.timePicker-' + type + '-list-main .timePicker-select span').html(formatTime(value));
+            if ($item.length) {
+                $item.removeClass('active');
+                $.each($item, function(index, el) {
+                    if (Number($(el).text()) == value) {
+                        $(el).addClass('active');
+                        hasActive = 1;
+                        if (type === 'minute' || type === 'second' || type === 'hour') {
+                            $('.timePicker-' + type + '-list-main .timePicker-select span').html(formatTime(value));
+                        }
+                        return false;
                     }
-                    return false;
+                });
+                //找不到日期的时候，比如2月的31号
+                if (!hasActive && type === 'day') {
+                    $item.eq(0).addClass('active');
+                    setCache.call(this, $item.eq(0), type);
                 }
-            });
-            //找不到日期的时候，比如2月的31号
-            if (!hasActive && type === 'day') {
-                $item.eq(0).addClass('active');
-                setCache.call(this, $item.eq(0), type);
             }
+
         }
     }
     //返回常用的data
@@ -963,14 +1092,14 @@ $(function() {
     }
 
     //获取当前日期
-    function getNowDate() {
+    function getNowDate(index) {
         var date = new Date();
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
         var day = date.getDate();
-        var hour = date.getHours();
-        var minute = date.getMinutes();
-        var second = date.getSeconds();
+        var hour = index===1?23:index===0?0:date.getHours();
+        var minute = index===1?59:index===0?0:date.getMinutes();
+        var second = index===1?59:index===0?0:date.getSeconds();
         return {
             month: month,
             year: year,
@@ -1004,6 +1133,24 @@ $(function() {
         };
     }
 
+    //结合format调整值的格式
+    function handleDate(date){
+        return !date?'':date==='today'?getNowDate():getDate(date);
+    }
+    function setInitValue(date){
+        var time=handleDate(date);
+        if(time){
+            var temp=time.time;
+            this.formatType===1?temp=temp.split(' ')[0]:this.formatType===2?function(){
+                temp.split(':').pop();
+            }:false;
+            time.time=temp;
+        }else{
+            time.time='';
+        }
+        return time;
+    }
+
     //判断时间大小
     function diffTime(start,end){
         return Date.parse(start) > Date.parse(end);
@@ -1021,7 +1168,10 @@ $(function(){
         //是否是范围选择
         isRange: true,
         minDate:'1980-10-22',
-        maxDate:'1993-10-29'
+        maxDate:'1993-10-29',
+        chooseDay:function($target){
+            this.hidePicker();
+        }
     });
     $('.J-timeRangePicker').timeRangePicker({
         //是否是范围选择
@@ -1031,7 +1181,10 @@ $(function(){
     $('.J-timeRangePicker-1').timeRangePicker({
         //是否是范围选择
         isRange: true,
-        format:'YYYY-MM-DD hh:mm'
+        format:'YYYY-MM-DD hh:mm',
+        chooseDay:function($target){
+            this.hidePicker();
+        }
     });
 
     $('.J-timeRangePicker-2').timeRangePicker({
@@ -1041,4 +1194,33 @@ $(function(){
             this.hidePicker();
         }
     });
+    $('.J-timePickerRange-time').timeRangePicker({
+        //是否是范围选择
+        isRange: false,
+        format:'hh:mm:ss',
+        startDate:'2000-09-01 00:00:00',
+        hide:function(target){
+            var index=$('.J-time-range').index(target.find('[role="timePicker"]'));
+            this.timeRangeContorl($('.J-time-range'),index);
+        },
+        afterInit:function(self){
+           //渲染结束后回调
+           self.target.find('[role="timePicker"]').val('');
+        }
+    });
+    $('.J-timePickerRange-time-end').timeRangePicker({
+        //是否是范围选择
+        isRange: false,
+        format:'hh:mm:ss',
+        startDate:'2000-09-01 23:59:59',
+        hide:function(target){
+            var index=$('.J-time-range').index(target.find('[role="timePicker"]'));
+            this.timeRangeContorl($('.J-time-range'),index);
+        },
+        afterInit:function(self){
+            self.target.find('[role="timePicker"]').val('');
+        }
+    });
+
+
 });
